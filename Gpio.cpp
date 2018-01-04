@@ -8,7 +8,7 @@
 Gpio::Gpio(GPIO_TypeDef* group, uint16_t pin) {
 	Gpio::group = group;
 	Gpio::pin = pin;
-	
+
 	initPin();
 }
 
@@ -16,14 +16,18 @@ Gpio::Gpio(GPIO_TypeDef* group, uint16_t pin) {
 * 初始化引脚
 */
 void Gpio::initPin() {
-	/* GPIO Ports Clock Enable */
+	//GPIO Ports Clock Enable
 	__HAL_RCC_GPIOC_CLK_ENABLE();
 	__HAL_RCC_GPIOD_CLK_ENABLE();
 	__HAL_RCC_GPIOA_CLK_ENABLE();
 	
-	/*Configure GPIO pin Output Level */
+	gpioStruct.Pin = pin;
+	gpioStruct.Mode = OUTPUT;
+	gpioStruct.Speed = GPIO_SPEED_FREQ_LOW;
+
+	//Configure GPIO pin Output Level
 	HAL_GPIO_WritePin(group, pin, GPIO_PIN_RESET);
-	pinMode(GPIO_MODE_OUTPUT_PP);
+	pinMode(OUTPUT);
 }
 
 /*
@@ -49,11 +53,8 @@ void Gpio::setPin(uint16_t pin) {
 * @param pinMode: 引脚模式(INPUT/OUTPUT)
 */
 void Gpio::pinMode(int pinMode) {
-	GPIO_InitTypeDef GPIO_InitStruct;
-	GPIO_InitStruct.Pin = pin;
-	GPIO_InitStruct.Mode = pinMode;
-	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-	HAL_GPIO_Init(group, &GPIO_InitStruct);
+	gpioStruct.Mode = pinMode;
+	HAL_GPIO_Init(group, &gpioStruct);
 }
 
 /*

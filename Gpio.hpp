@@ -16,7 +16,7 @@ public:
 	
 	Gpio(GPIO_TypeDef* group, uint16_t pin);
 	
-	void setGroup(GPIO_TypeDef* group);
+	void setGroup(GPIO_TypeDef * group);
 	void setPin(uint16_t pin);
 	void pinMode(int pinMode);
 	void digitalWrite(GPIO_PinState state);
@@ -26,6 +26,7 @@ public:
 private:
 	GPIO_TypeDef * group;
 	uint16_t pin;
+	GPIO_InitTypeDef gpioStruct;
 	
 	void initPin();
 };
